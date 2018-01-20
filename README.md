@@ -1,26 +1,11 @@
-```
-██████╗███████╗██████╗ ██████╗ ███████╗██████╗ ██╗   ██╗███████╗
-██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗██║   ██║██╔════╝
-██║     █████╗  ██████╔╝██████╔╝█████╗  ██████╔╝██║   ██║███████╗
-██║     ██╔══╝  ██╔══██╗██╔══██╗██╔══╝  ██╔══██╗██║   ██║╚════██║
-╚██████╗███████╗██║  ██║██████╔╝███████╗██║  ██║╚██████╔╝███████║
-╚═════╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+__________.__                .__                                
+\______   \  |   ____   ____ |  |__   ____  __ __  ______ ____  
+ |    |  _/  | _/ __ \_/ __ \|  |  \ /  _ \|  |  \/  ___// __ \ 
+ |    |   \  |_\  ___/\  ___/|   Y  (  <_> )  |  /\___ \\  ___/ 
+ |______  /____/\___  >\___  >___|  /\____/|____//____  >\___  >
+        \/          \/     \/     \/                  \/     \/ 
 
-                            /\_/\____,
-                  ,___/\_/\ \  ~     /
-                  \     ~  \ )   XXX
-                    XXX     /    /\_/\___,
-                       \o-o/-o-o/   ~    /
-                        ) /     \    XXX
-                       _|    / \ \_/
-                    ,-/   _  \_/   \
-                   / (   /____,__|  )
-                  (  |_ (    )  \) _|
-                 _/ _)   \   \__/   (_
-                (,-(,(,(,/      \,),),)
 
-```
-[![](https://travis-ci.org/brahalla/Cerberus.svg)](https://travis-ci.org/brahalla/Cerberus) [![](https://coveralls.io/repos/brahalla/Cerberus/badge.svg?branch=master&service=github)](https://coveralls.io/github/brahalla/Cerberus?branch=master) [![](https://badges.gitter.im/brahalla/Cerberus.svg)](https://gitter.im/brahalla/Cerberus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ## About
 Cerberus is a demonstration of a completely stateless and RESTful token-based authorization system using JSON Web Tokens (JWT) and Spring Security.
 
