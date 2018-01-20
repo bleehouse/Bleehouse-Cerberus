@@ -15,7 +15,7 @@ Cerberus is a demonstration of a completely stateless and RESTful token-based au
 For an API to be truly RESTful, no application state can be stored on the server itself. One particular challenge in implementing this is ensuring that your API is secure. Cerberus is the answer to this problem; access to the endpoints in the API requires a JSON Web Token to be present in the request header. This token is obtained by successfully performing an authentication request with the API, and afterwards this token will grant access to the API based on the authorities granted to the specified user.
 
 ## Requirements
-Cerberus requires Maven and Java 1.7 or greater.
+Cerberus requires Maven and Java 1.8 or greater.
 
 ## Usage
 To use start Cerberus, run in the terminal `mvn spring-boot:run`. Cerberus will now be running at `http://localhost:8080/api/`
