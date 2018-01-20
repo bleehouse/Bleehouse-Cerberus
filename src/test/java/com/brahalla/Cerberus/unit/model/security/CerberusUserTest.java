@@ -1,13 +1,13 @@
 package com.brahalla.Cerberus.unit.model.security;
 
-import com.brahalla.Cerberus.model.security.CerberusUser;
-
 import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+
+import com.bleehouse.Cerberus.model.security.CerberusUser;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;

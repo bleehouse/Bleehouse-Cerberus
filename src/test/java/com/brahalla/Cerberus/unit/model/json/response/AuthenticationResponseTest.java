@@ -1,8 +1,8 @@
 package com.brahalla.Cerberus.unit.model.json.response;
 
-import com.brahalla.Cerberus.model.json.response.AuthenticationResponse;
-
 import org.junit.Test;
+
+import com.bleehouse.Cerberus.model.json.response.AuthenticationResponse;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;

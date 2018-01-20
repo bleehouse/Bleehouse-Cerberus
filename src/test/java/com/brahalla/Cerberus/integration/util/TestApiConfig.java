@@ -1,6 +1,6 @@
 package com.brahalla.Cerberus.integration.util;
 
-import com.brahalla.Cerberus.model.json.request.AuthenticationRequest;
+import com.bleehouse.Cerberus.model.json.request.AuthenticationRequest;
 
 public class TestApiConfig {
 

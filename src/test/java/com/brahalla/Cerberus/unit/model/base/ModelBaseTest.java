@@ -1,10 +1,10 @@
 package com.brahalla.Cerberus.unit.model.base;
 
-import com.brahalla.Cerberus.model.base.ModelBase;
-
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.bleehouse.Cerberus.model.base.ModelBase;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

@@ -1,10 +1,10 @@
 package com.brahalla.Cerberus.unit.domain.entity;
 
-import com.brahalla.Cerberus.domain.entity.User;
-
 import java.util.Date;
 
 import org.junit.Test;
+
+import com.bleehouse.Cerberus.domain.entity.User;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;

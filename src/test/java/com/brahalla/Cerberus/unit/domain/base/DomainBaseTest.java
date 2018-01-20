@@ -1,10 +1,10 @@
 package com.brahalla.Cerberus.unit.domain.base;
 
-import com.brahalla.Cerberus.domain.base.DomainBase;
-
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.bleehouse.Cerberus.domain.base.DomainBase;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
