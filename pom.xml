@@ -27,11 +27,11 @@
   </properties>
 
   <!-- Parent information -->
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.4.3.RELEASE</version>
-  </parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.7.RELEASE</version>
+    </parent>
 
   <!-- Dependency information -->
   <dependencies>
@@ -95,7 +95,7 @@
 	<dependency>
 	    <groupId>org.postgresql</groupId>
 	    <artifactId>postgresql</artifactId>
-	</dependency>    
+	</dependency>
   </dependencies>
 
   <!-- Build information -->
