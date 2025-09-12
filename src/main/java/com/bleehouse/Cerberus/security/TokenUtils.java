@@ -1,16 +1,18 @@
 package com.bleehouse.Cerberus.security;
 
 import io.jsonwebtoken.*;
-import java.io.UnsupportedEncodingException;
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +21,7 @@ import com.bleehouse.Cerberus.model.security.CerberusUser;
 @Component
 public class TokenUtils {
 
-  private final Logger logger = Logger.getLogger(this.getClass());
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private final String AUDIENCE_UNKNOWN   = "unknown";
   private final String AUDIENCE_WEB       = "web";
@@ -79,10 +81,12 @@ public class TokenUtils {
   private Claims getClaimsFromToken(String token) {
     Claims claims;
     try {
+      SecretKey key = Keys.hmacShaKeyFor(this.secret.getBytes(StandardCharsets.UTF_8));
       claims = Jwts.parser()
-        .setSigningKey(this.secret.getBytes("UTF-8"))
-        .parseClaimsJws(token)
-        .getBody();
+        .verifyWith(key)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload();
     } catch (Exception e) {
       claims = null;
     }
@@ -106,16 +110,15 @@ public class TokenUtils {
     return (lastPasswordReset != null && created.before(lastPasswordReset));
   }
 
-  private String generateAudience(Device device) {
-    String audience = this.AUDIENCE_UNKNOWN;
-    if (device.isNormal()) {
-      audience = this.AUDIENCE_WEB;
-    } else if (device.isTablet()) {
-      audience = AUDIENCE_TABLET;
-    } else if (device.isMobile()) {
-      audience = AUDIENCE_MOBILE;
+  private String generateAudience(String deviceType) {
+    if ("web".equals(deviceType)) {
+      return this.AUDIENCE_WEB;
+    } else if ("tablet".equals(deviceType)) {
+      return AUDIENCE_TABLET;
+    } else if ("mobile".equals(deviceType)) {
+      return AUDIENCE_MOBILE;
     }
-    return audience;
+    return this.AUDIENCE_UNKNOWN;
   }
 
   private Boolean ignoreTokenExpiration(String token) {
@@ -123,29 +126,25 @@ public class TokenUtils {
     return (this.AUDIENCE_TABLET.equals(audience) || this.AUDIENCE_MOBILE.equals(audience));
   }
 
-  public String generateToken(UserDetails userDetails, Device device) {
+  public String generateToken(UserDetails userDetails, String deviceType) {
     Map<String, Object> claims = new HashMap<String, Object>();
     claims.put("sub", userDetails.getUsername());
-    claims.put("audience", this.generateAudience(device));
+    claims.put("audience", this.generateAudience(deviceType));
     claims.put("created", this.generateCurrentDate());
     return this.generateToken(claims);
   }
 
   private String generateToken(Map<String, Object> claims) {
       try {
+          SecretKey key = Keys.hmacShaKeyFor(this.secret.getBytes(StandardCharsets.UTF_8));
           return Jwts.builder()
-                  .setClaims(claims)
-                  .setExpiration(this.generateExpirationDate())
-                  .signWith(SignatureAlgorithm.HS512, this.secret.getBytes("UTF-8"))
+                  .claims(claims)
+                  .expiration(this.generateExpirationDate())
+                  .signWith(key, Jwts.SIG.HS512)
                   .compact();
-      } catch (UnsupportedEncodingException ex) {
-          //didn't want to have this method throw the exception, would rather log it and sign the token like it was before
-          logger.warn(ex.getMessage());
-          return Jwts.builder()
-                  .setClaims(claims)
-                  .setExpiration(this.generateExpirationDate())
-                  .signWith(SignatureAlgorithm.HS512, this.secret)
-                  .compact();
+      } catch (Exception ex) {
+          logger.error("Token generation failed: " + ex.getMessage(), ex);
+          throw new RuntimeException("Failed to generate JWT token", ex);
       }
   }
 

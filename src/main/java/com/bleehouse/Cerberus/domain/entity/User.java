@@ -2,13 +2,13 @@ package com.bleehouse.Cerberus.domain.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 
 import com.bleehouse.Cerberus.domain.base.DomainBase;
 
@@ -37,9 +37,8 @@ public class User extends DomainBase {
   }
 
   @Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
-	@SequenceGenerator(name = "users_seq", sequenceName = "users_seq", allocationSize = 1)
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Long getId() {
     return this.id;
   }

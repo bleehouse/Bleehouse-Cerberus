@@ -1,13 +1,13 @@
 package com.bleehouse.Cerberus.controller.rest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,7 +29,7 @@ import com.bleehouse.Cerberus.security.TokenUtils;
 @RequestMapping("${cerberus.route.authentication}")
 public class AuthenticationController {
 
-  private final Logger logger = Logger.getLogger(this.getClass());
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Value("${cerberus.token.header}")
   private String tokenHeader;
@@ -44,7 +44,7 @@ public class AuthenticationController {
   private UserDetailsService userDetailsService;
 
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+  public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request) throws AuthenticationException {
 
     // Perform the authentication
     Authentication authentication = this.authenticationManager.authenticate(
@@ -57,10 +57,22 @@ public class AuthenticationController {
 
     // Reload password post-authentication so we can generate token
     UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-    String token = this.tokenUtils.generateToken(userDetails, device);
+    
+    // Determine device type from User-Agent header or default to "web"
+    String userAgent = request.getHeader("User-Agent");
+    String deviceType = determineDeviceType(userAgent);
+    String token = this.tokenUtils.generateToken(userDetails, deviceType);
 
     // Return the token
     return ResponseEntity.ok(new AuthenticationResponse(token));
+  }
+  
+  private String determineDeviceType(String userAgent) {
+    if (userAgent == null) return "web";
+    userAgent = userAgent.toLowerCase();
+    if (userAgent.contains("mobile")) return "mobile";
+    if (userAgent.contains("tablet")) return "tablet";
+    return "web";
   }
 
   @RequestMapping(value = "${cerberus.route.authentication.refresh}", method = RequestMethod.GET)
