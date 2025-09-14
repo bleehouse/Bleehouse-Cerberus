@@ -9,49 +9,76 @@ __________.__                .__
 ```
 
 ## About
-Cerberus is a demonstration of a completely stateless and RESTful token-based authorization system using JSON Web Tokens (JWT) and Spring Security.
+Cerberus는 JWT(JSON Web Tokens)와 Spring Security를 사용하는 완전히 상태 비저장(stateless) RESTful 기반의 인증 시스템입니다.
 
-## Why?
-For an API to be truly RESTful, no application state can be stored on the server itself. One particular challenge in implementing this is ensuring that your API is secure. Cerberus is the answer to this problem; access to the endpoints in the API requires a JSON Web Token to be present in the request header. This token is obtained by successfully performing an authentication request with the API, and afterwards this token will grant access to the API based on the authorities granted to the specified user.
+## 주요 특징
+- Spring Boot 기반의 RESTful API 서버
+- JWT 기반의 상태 비저장 인증 시스템
+- Spring Security를 활용한 역할 기반 접근 제어
+- 파일 업로드/다운로드 기능 지원
+- 사용자 관리 및 인증 시스템
+- 테스트 코드 포함
 
-## Requirements
-Cerberus requires Maven and Java 1.8 or greater.
+## 기술 스택
+- Java 8 이상
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- JSON Web Token (JWT)
+- Maven
 
-## Usage
-To use start Cerberus, run in the terminal `mvn spring-boot:run`. Cerberus will now be running at `http://localhost:8080/api/`
+## 시작하기
+### 요구사항
+- Java 8 이상
+- Maven 3.x
+- Redis (세션 관리용)
 
-There are two built-in user accounts to demonstrate the differing levels of access to the endpoints in the API:
+### 설치 및 실행
+1. 프로젝트 클론
+```bash
+git clone https://github.com/bleehouse/Bleehouse-Cerberus.git
+cd Bleehouse-Cerberus
 ```
-User - user:password
-Admin - admin:admin
-```
 
-Cerberus also has two endpoints. The first is the authentication endpoint, which is unrestricted. The second is a protected endpoint which only admin users may access (provided the correct JWT token is present in the request header):
+2. 애플리케이션 실행
+```bash
+mvn spring-boot:run
 ```
-/api/auth
-/api/protected
-```
+서버는 `http://localhost:8080/api/`에서 실행됩니다.
 
-To authenticate with Cerberus, you can curl a POST request with the following credentials to receive a JWT token:
-```
+## API 엔드포인트
+### 인증 관련
+- `POST /api/auth` - 로그인 및 토큰 발급
+- `GET /api/auth/refresh` - 토큰 갱신
+- `POST /api/auth/register` - 새 사용자 등록
+
+### 보호된 리소스
+- `GET /api/protected` - 관리자 전용 접근
+- `GET /api/test` - 테스트 엔드포인트
+- `POST /api/files` - 파일 업로드
+- `GET /api/files/{fileName}` - 파일 다운로드
+
+### 사용 예시
+1. 인증 토큰 받기:
+```bash
 curl -i -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"admin"}' http://localhost:8080/api/auth
 ```
 
-The response should look like this:
-```
-{
-  "token" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiJ9.bKweskM-3QqOY8ScxhC9AcREOCG2UDY0Ylezdv1h81ALFg_v0QYBgxwfUjtf_Ns7RqAQIh_kFg1ZkeFV-szRUg"
-}
+2. 보호된 리소스 접근:
+```bash
+curl -i -H "Content-Type: application/json" -H "X-Auth-Token: [your-token]" -X GET http://localhost:8080/api/protected
 ```
 
-You can now insert this token into your request header for GET access to `/api/protected`:
+## 보안 정책
+- 토큰은 7일 후 만료됩니다.
+- 만료되지 않은 토큰은 `/api/auth/refresh`를 통해 갱신할 수 있습니다.
+- 모바일 디바이스용 토큰은 만료 후에도 갱신이 가능합니다.
+
+## 테스트
+테스트 실행:
+```bash
+mvn clean package
 ```
-curl -i -H "Content-Type: application/json" -H "X-Auth-Token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiJ9.bKweskM-3QqOY8ScxhC9cREOCG2UDY0Ylezdv1h81ALFg_v0QYBgxwfUjtf_Ns7RqAQIh_kFg1ZkeFV-szRUg" -X GET http://localhost:8080/api/protected
-```
 
-You should get an HTTP 200 and the response `:O`
-
-Tokens are configured to expire after a week. To ensure that a token remains fresh and does not expire, you can refresh an existing token by sending a GET to `/api/auth/refresh` with the token set in the request header. The response will be a new token with an updated expiration date. This refresh mechanism only works for tokens that have not expired yet, unless the token was provided to a mobile device. Tokens for mobile devices can always be refreshed.
-
-## Testing
-To run Cerberus's unit tests, run in the terminal `mvn clean package`.
+## 기여하기
+프로젝트에 기여하고 싶으시다면 `CONTRIBUTING.md` 문서를 참고해 주세요.
