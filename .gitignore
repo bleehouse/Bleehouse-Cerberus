@@ -5,6 +5,14 @@ target/
 *.war
 *.ear
 
+# IDE
+.settings/
+.vscode/
+.idea/
+*.iml
+.project
+.classpath
+
 # OS
 .DS_Store
 .DS_Store?
