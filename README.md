@@ -20,8 +20,8 @@ Cerberus는 JWT(JSON Web Tokens)와 Spring Security를 사용하는 완전히 �
 - 테스트 코드 포함
 
 ## 기술 스택
-- Java 8 이상
-- Spring Boot
+- Java 17 이상
+- Spring Boot 3.2.3
 - Spring Security
 - Spring Data JPA
 - JSON Web Token (JWT)
@@ -29,7 +29,7 @@ Cerberus는 JWT(JSON Web Tokens)와 Spring Security를 사용하는 완전히 �
 
 ## 시작하기
 ### 요구사항
-- Java 8 이상
+- Java 17 이상
 - Maven 3.x
 - Redis (세션 관리용)
 
