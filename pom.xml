@@ -17,7 +17,7 @@
     <jjwt.version>0.12.3</jjwt.version>
     <apache-commons.version>3.14.0</apache-commons.version>
     <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
-    <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
+    <coveralls-maven-plugin.version>4.3.1</coveralls-maven-plugin.version>
     <maven.test.skip>true</maven.test.skip>
   </properties>
 
